@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="template.xhtml">
+
+    <h:form>
+        <p:messages autoUpdate="true" showDetail="true"></p:messages>
+        <p:fieldset legend="Tipo de Peça">
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:commandButton value="Novo" action="#{tipopecaBean.novo()}" icon="fa fa-plus" update="@form"></p:commandButton>
+                    <p:commandButton value="Salvar" action="#{tipopecaBean.salva()}" icon="ui-icon-check" disabled="#{tipopecaBean.busca == true}" update="@form"></p:commandButton>
+                    <p:commandButton value="Buscar" action="#{tipopecaBean.busca()}" icon="fa fa-search" update="@form"></p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+            <p:panelGrid columns="2" rendered="#{tipopecaBean.busca == false}">
+                <h:outputLabel value="Código" for="codigo"></h:outputLabel>
+                <p:inputText id="codigo" disabled="#{tipopecaBean.edita == true}" value="#{tipopecaBean.entidade.idTipopeca}"></p:inputText>
+
+                <h:outputLabel value="Caminho Imagem" for="caminho"></h:outputLabel>
+                <p:inputText id="caminho" value="#{tipopecaBean.entidade.nome}"></p:inputText>
+            </p:panelGrid>
+            <p:dataTable value="#{tipopecaBean.entidades}" var="tipopeca" rendered="#{tipopecaBean.busca == true}">
+                <p:column>
+                    <p:commandButton value="Editar" icon="fa fa-fw fa-edit" action="#{tipopecaBean.edita(tipopeca)}" update="@form"></p:commandButton>
+                    <p:commandButton value="Deletar" icon="fa fa-fw fa-remove" action="#{tipopecaBean.exclui(tipopeca)}" update="@form"></p:commandButton>
+                </p:column>
+                <p:column headerText="Código" sortBy="#{tipopeca.idTipopeca}">
+                    <h:outputText value="#{tipopeca.idTipopeca}"></h:outputText>
+                </p:column>
+                <p:column headerText="Caminho Imagem" sortBy="#{tipopeca.nome}">
+                    <h:outputText value="#{tipopeca.nome}"></h:outputText>
+                </p:column>
+            </p:dataTable>
+        </p:fieldset>
+    </h:form>
+</ui:decorate>

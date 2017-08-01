@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="template.xhtml">
+
+    <h:form>
+        <p:messages autoUpdate="true" showDetail="true"></p:messages>
+        <p:fieldset legend="Peça">
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:commandButton value="Novo" action="#{pecaBean.novo()}" icon="fa fa-plus" update="@form"></p:commandButton>
+                    <p:commandButton value="Salvar" action="#{pecaBean.salva()}" icon="ui-icon-check" disabled="#{pecaBean.busca == true}" update="@form"></p:commandButton>
+                    <p:commandButton value="Buscar" action="#{pecaBean.busca()}" icon="fa fa-search" update="@form"></p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+            <p:panelGrid columns="2" rendered="#{pecaBean.busca == false}">
+                <h:outputLabel value="Código" for="codigo"></h:outputLabel>
+                <p:inputText id="codigo" disabled="#{pecaBean.edita == true}" value="#{pecaBean.entidade.idPeca}" required="true" requiredMessage="Informe o Código"></p:inputText>
+
+                <h:outputLabel value="Nome" for="nome"></h:outputLabel>
+                <p:inputText id="nome" value="#{pecaBean.entidade.nome}" required="true" requiredMessage="Informe o Nome"></p:inputText>
+
+                <h:outputLabel value="Quantidade" for="quantidade"></h:outputLabel>
+                <p:inputText id="quantidade" value="#{pecaBean.entidade.quantidade}" required="true" requiredMessage="Informe a Quantidade"></p:inputText>
+
+                <h:outputLabel value="Modelo" for="modelo"></h:outputLabel>
+                <p:inputText id="modelo" value="#{pecaBean.entidade.modelo}" required="true" requiredMessage="Informe o Modelo"></p:inputText>
+
+                <h:outputLabel value="Preço de Compra" for="precocompra"></h:outputLabel>
+                <p:inputText id="precocompra" value="#{pecaBean.entidade.precoCompra}" required="true" requiredMessage="Informe o Preço de Compra"></p:inputText>
+
+                <h:outputLabel value="Tipo de Peça" for="tipopeca"></h:outputLabel>
+                <p:selectOneMenu id="tipopeca" value="#{pecaBean.entidade.FKtipopeca}" converter="conversorObjeto" effect="fade" required="true" requiredMessage="Informe o Tipo de Peça">
+                    <f:selectItem itemLabel="Escolha" itemValue=""/>
+                    <f:selectItems value="#{tipopecaBean.dao.buscar()}" var="tipopeca" itemLabel="#{tipopeca.nome}" itemValue="#{tipopeca}"/>
+                </p:selectOneMenu>
+            </p:panelGrid>
+            <p:dataTable value="#{pecaBean.entidades}" var="peca" rendered="#{pecaBean.busca == true}">
+                <p:column>
+                    <p:commandButton value="Editar" icon="fa fa-fw fa-edit" action="#{pecaBean.edita(peca)}" update="@form"></p:commandButton>
+                    <p:commandButton value="Deletar" icon="fa fa-fw fa-remove" action="#{pecaBean.exclui(peca)}" update="@form"></p:commandButton>
+                </p:column>
+                <p:column headerText="Código" sortBy="#{peca.idPeca}">
+                    <h:outputText value="#{peca.idPeca}"></h:outputText>
+                </p:column>
+
+                <p:column headerText="Nome" sortBy="#{peca.nome}">
+                    <h:outputText value="#{peca.nome}"></h:outputText>
+                </p:column>
+
+                <p:column headerText="Quantidade" sortBy="#{peca.quantidade}">
+                    <h:outputText value="#{peca.quantidade}"></h:outputText>
+                </p:column>
+
+                <p:column headerText="Modelo" sortBy="#{peca.modelo}">
+                    <h:outputText value="#{peca.modelo}"></h:outputText>
+                </p:column>
+
+                <p:column headerText="Preço de Compra" sortBy="#{peca.precoCompra}">
+                    <h:outputText value="#{peca.precoCompra}"></h:outputText>
+                </p:column>
+
+                <p:column headerText="Tipo Peça" sortBy="#{peca.FKtipopeca.nome}">
+                    <h:outputText value="#{peca.FKtipopeca.nome}"></h:outputText>
+                </p:column>
+            </p:dataTable>
+        </p:fieldset>
+    </h:form>
+</ui:decorate>

@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Corsarios Baja</title>
+        <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/images/favicon.ico"/>
+  </h:head>
+    <h:body>
+        <h:form>  
+            <p:growl id="messages"/>
+            <!--<p:button outcome="index.xhtml" value="Home" />-->
+            <p:menubar>
+                <p:submenu label="Cadastrar/Buscar" icon="ui-icon-pencil">
+                    <p:menuitem value="Automóvel" url="pesquisarAutomovel.xhtml" />
+                    <p:menuitem value="Arquitetura" url="pesquisarArquitetura.xhtml"/>
+                    <p:menuitem value="Avaliação" url="pesquisarAvaliacao.xhtml" />
+                    <p:menuitem value="Competição" url="pesquisarCompeticao.xhtml" />
+                    <p:menuitem value="Desempenho" url="pesquisarDesempenho.xhtml" />
+                    <p:menuitem value="Desempenho Teste" url="pesquisarDesempenhoteste.xhtml" />
+                    <p:menuitem value="Design" url="pesquisarDesign.xhtml" />
+                    <p:menuitem value="Frequência" url="pesquisarFrequencia.xhtml" />
+                    <p:menuitem value="Integrante" url="pesquisarIntegrante.xhtml" />
+                    <p:menuitem value="Peça" url="pesquisarPeca.xhtml" />
+                    <p:menuitem value="Pessoa" url="pesquisarPessoa.xhtml" />
+                    <p:menuitem value="Tipo Peça" url="pesquisarTipopeca.xhtml" />
+                    <p:menuitem value="Tipo Pista" url="pesquisarTipopista.xhtml" />
+                </p:submenu>
+                <p:submenu label="Relatório" icon="ui-icon-pencil">
+                    <p:menuitem value="Automóvel" action="#{automovelBean.imprimeRelatorio}" target="_blank" ajax="false" />
+                    <p:menuitem value="Arquitetura" action="#{arquiteturaBean.imprimeRelatorio}" target="_blank" ajax="false"/>
+                    <p:menuitem value="Avaliação" action="#{avaliacaoBean.imprimeRelatorio}" target="_blank" ajax="false" />
+                    <p:menuitem value="Competição" action="#{competicaoBean.imprimeRelatorio}" target="_blank" ajax="false" />
+                    <p:menuitem value="Desempenho" action="#{desempenhoBean.imprimeRelatorio}" target="_blank" ajax="false" />
+                    <p:menuitem value="Desempenho Teste" action="#{desempenhotesteBean.imprimeRelatorio}" target="_blank" ajax="false"/>
+                    <p:menuitem value="Design" action="#{designBean.imprimeRelatorio}" target="_blank" ajax="false" />
+                    <p:menuitem value="Frequência" action="#{frequenciaBean.imprimeRelatorio}" target="_blank" ajax="false" />
+                    <p:menuitem value="Integrante" action="#{integranteBean.imprimeRelatorio}" target="_blank" ajax="false" />
+                    <p:menuitem value="Peça" action="#{pecaBean.imprimeRelatorio}" target="_blank" ajax="false" />
+                    <p:menuitem value="Pessoa" action="#{pessoaBean.imprimeRelatorio}" target="_blank" ajax="false" />
+                    <p:menuitem value="Tipo Peça" action="#{tipopecaBean.imprimeRelatorio}" target="_blank" ajax="false" />
+                    <p:menuitem value="Tipo Pista" action="#{tipopistaBean.imprimeRelatorio}" target="_blank" ajax="false"/>
+                </p:submenu>
+                <p:submenu label="Options" icon="ui-icon-pencil">
+                    <p:menuitem value="Homepage" url="index.xhtml" icon="ui-icon-extlink" />
+                    <p:menuitem value="Relatorios" url="relatorios.xhtml" icon="ui-icon-extlink" />
+                </p:submenu>
+            </p:menubar>
+
+        </h:form>
+        <hr/>
+        <ui:insert></ui:insert>
+    </h:body>
+</html>

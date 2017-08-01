@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="template.xhtml">
+
+    <h:form>
+        <p:messages autoUpdate="true" showDetail="true"></p:messages>
+        <p:fieldset legend="Integrante">
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:commandButton value="Novo" action="#{integranteBean.novo()}" icon="fa fa-plus" update="@form"></p:commandButton>
+                    <p:commandButton value="Salvar" action="#{integranteBean.salva()}" icon="ui-icon-check" disabled="#{integranteBean.busca == true}" update="@form"></p:commandButton>
+                    <p:commandButton value="Buscar" action="#{integranteBean.busca()}" icon="fa fa-search" update="@form"></p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+            <p:panelGrid columns="2" rendered="#{integranteBean.busca == false}">
+                <h:outputLabel value="Matrícula" for="matricula"></h:outputLabel>
+                <p:inputText id="matricula" disabled="#{integranteBean.edita == true}" value="#{integranteBean.entidade.matricula}" required="true" requiredMessage="Informe a Matricula"></p:inputText>
+
+                <h:outputLabel value="Carga Horária Disponível" for="cargahorariadisponivel"></h:outputLabel>
+                <p:inputText id="cargahorariadisponivel" value="#{integranteBean.entidade.cargaHorariaDisponivel}" required="true" requiredMessage="Informe a carga horaria"></p:inputText>
+
+                <h:outputLabel value="Pessoa" for="pessoa"></h:outputLabel>
+                <p:selectOneMenu id="pessoa" value="#{integranteBean.entidade.FKpessoa}" converter="conversorObjeto" effect="fade" required="true" requiredMessage="Informe a Pessoa">
+                    <f:selectItem itemLabel="Escolha" itemValue=""/>
+                    <f:selectItems value="#{pessoaBean.dao.buscar()}" var="pessoa" itemLabel="#{pessoa.nome}" itemValue="#{pessoa}"/>
+                </p:selectOneMenu>
+            </p:panelGrid>
+            <p:dataTable value="#{integranteBean.entidades}" var="integrante" rendered="#{integranteBean.busca == true}">
+                <p:column>
+                    <p:commandButton value="Editar" icon="fa fa-fw fa-edit" action="#{integranteBean.edita(integrante)}" update="@form"></p:commandButton>
+                    <p:commandButton value="Deletar" icon="fa fa-fw fa-remove" action="#{integranteBean.exclui(integrante)}" update="@form"></p:commandButton>
+                </p:column>                
+
+                <p:column headerText="Matrícula" sortBy="#{integrante.matricula}">
+                    <h:outputText value="#{integrante.matricula}"></h:outputText>
+                </p:column>               
+
+                <p:column headerText="Carga Horária Disponível" sortBy="#{integrante.cargaHorariaDisponivel}">
+                    <h:outputText value="#{integrante.cargaHorariaDisponivel}"></h:outputText>
+                </p:column>           
+
+                <p:column headerText="Pessoa" sortBy="#{integrante.FKpessoa}">
+                    <h:outputText value="#{integrante.FKpessoa.nome}"></h:outputText>
+                </p:column>
+
+            </p:dataTable>
+        </p:fieldset>
+    </h:form>
+</ui:decorate>

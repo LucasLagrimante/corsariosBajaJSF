@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="template.xhtml">
+
+    <h:form>
+        <p:messages autoUpdate="true" showDetail="true"></p:messages>
+        <p:fieldset legend="Tipo de Pista">
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:commandButton value="Novo" action="#{tipopistaBean.novo()}" icon="fa fa-plus" update="@form"></p:commandButton>
+                    <p:commandButton value="Salvar" action="#{tipopistaBean.salva()}" icon="ui-icon-check" disabled="#{tipopistaBean.busca == true}" update="@form"></p:commandButton>
+                    <p:commandButton value="Buscar" action="#{tipopistaBean.busca()}" icon="fa fa-search" update="@form"></p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+            <p:panelGrid columns="2" rendered="#{tipopistaBean.busca == false}">
+                <h:outputLabel value="Código" for="codigo"></h:outputLabel>
+                <p:inputText id="codigo" disabled="#{tipopistaBean.edita == true}" value="#{tipopistaBean.entidade.idTipopista}"></p:inputText>
+
+                <h:outputLabel value="Nome" for="nome"></h:outputLabel>
+                <p:inputText id="nome" value="#{tipopistaBean.entidade.nome}"></p:inputText>
+
+            </p:panelGrid>
+            <p:dataTable value="#{tipopistaBean.entidades}" var="tipopista" rendered="#{tipopistaBean.busca == true}">
+                <p:column>
+                    <p:commandButton value="Editar" icon="fa fa-fw fa-edit" action="#{tipopistaBean.edita(tipopista)}" update="@form"></p:commandButton>
+                    <p:commandButton value="Deletar" icon="fa fa-fw fa-remove" action="#{tipopistaBean.exclui(tipopista)}" update="@form"></p:commandButton>
+                </p:column>
+                <p:column headerText="Código" sortBy="#{tipopista.idTipopista}">
+                    <h:outputText value="#{tipopista.idTipopista}"></h:outputText>
+                </p:column>
+                <p:column headerText="Nome" sortBy="#{tipopista.nome}">
+                    <h:outputText value="#{tipopista.nome}"></h:outputText>
+                </p:column>
+            </p:dataTable>
+        </p:fieldset>
+    </h:form>
+</ui:decorate>

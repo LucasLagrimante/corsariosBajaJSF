@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="template.xhtml">
+    <h:form>
+        <p:messages autoUpdate="true" showDetail="true"></p:messages>
+        <p:fieldset legend="Arquitetura">
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:commandButton value="Novo" action="#{arquiteturaBean.novo()}" icon="fa fa-plus" update="@form"></p:commandButton>
+                    <p:commandButton value="Salvar" action="#{arquiteturaBean.salva()}" icon="ui-icon-check" disabled="#{arquiteturaBean.busca == true}" update="@form"></p:commandButton>
+                    <p:commandButton id="buscar" value="Buscar" action="#{arquiteturaBean.busca()}" icon="fa fa-search" update="@form"></p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+            <p:panelGrid columns="2" rendered="#{arquiteturaBean.busca == false}">
+                <h:outputLabel value="Código" for="codigo"></h:outputLabel>
+                <p:inputText id="codigo" disabled="#{arquiteturaBean.edita == true}" value="#{arquiteturaBean.entidade.idArquitetura}" required="true" requiredMessage="Informe o Código"></p:inputText>
+
+                <h:outputLabel value="Caminho Imagem" for="caminho"></h:outputLabel>
+                <p:inputText id="caminho" value="#{arquiteturaBean.entidade.caminhoImagem}" required="true" requiredMessage="Informe o caminho"></p:inputText>
+
+                <h:outputLabel value="Automóvel" for="automovel"></h:outputLabel>
+                <p:selectOneMenu id="automovel" value="#{arquiteturaBean.entidade.FKautomovel}" converter="conversorObjeto" effect="fade" required="true" requiredMessage="Informe o Automóvel">
+                    <f:selectItem itemLabel="Escolha" itemValue=""/>
+                    <f:selectItems value="#{automovelBean.dao.buscar()}" var="automovel" itemLabel="#{automovel.nome}" itemValue="#{automovel}"/>
+                </p:selectOneMenu>
+            </p:panelGrid>
+            <p:dataTable value="#{arquiteturaBean.entidades}" var="arquitetura" rendered="#{arquiteturaBean.busca == true}">
+                <p:column>
+                    <p:commandButton value="Editar" icon="fa fa-fw fa-edit" action="#{arquiteturaBean.edita(arquitetura)}" update="@form"></p:commandButton>
+                    <p:commandButton value="Deletar" icon="fa fa-fw fa-remove" action="#{arquiteturaBean.exclui(arquitetura)}" update="@form"></p:commandButton>
+                </p:column>
+                <p:column headerText="Código" sortBy="#{arquitetura.idArquitetura}">
+                    <h:outputText value="#{arquitetura.idArquitetura}"></h:outputText>
+                </p:column>
+                <p:column headerText="Caminho Imagem" sortBy="#{arquitetura.caminhoImagem}">
+                    <h:outputText value="#{arquitetura.caminhoImagem}"></h:outputText>
+                </p:column>
+                <p:column headerText="Automóvel" sortBy="#{arquitetura.FKautomovel.nome}">
+                    <h:outputText value="#{arquitetura.FKautomovel.nome}"></h:outputText>
+                </p:column> 
+            </p:dataTable>
+        </p:fieldset>
+    </h:form>
+</ui:decorate>

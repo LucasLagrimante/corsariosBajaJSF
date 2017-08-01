@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="template.xhtml">
+
+    <h:form>
+        <p:messages autoUpdate="true" showDetail="true"></p:messages>
+        <p:fieldset legend="Desempenho">
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:commandButton value="Novo" action="#{desempenhoBean.novo()}" icon="fa fa-plus" update="@form"></p:commandButton>
+                    <p:commandButton value="Salvar" action="#{desempenhoBean.salva()}" icon="ui-icon-check" disabled="#{desempenhoBean.busca == true}" update="@form"></p:commandButton>
+                    <p:commandButton value="Buscar" action="#{desempenhoBean.busca()}" icon="fa fa-search" update="@form"></p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+            <p:panelGrid columns="2" rendered="#{desempenhoBean.busca == false}">
+                <h:outputLabel value="Código" for="codigo"></h:outputLabel>
+                <p:inputText id="codigo" disabled="#{desempenhoBean.edita == true}" value="#{desempenhoBean.entidade.idDesempenho}"></p:inputText>
+
+                <h:outputLabel value="Nome" for="nome"></h:outputLabel>
+                <p:inputText id="nome" value="#{desempenhoBean.entidade.nome}"></p:inputText>
+
+                <h:outputLabel value="Data" for="data"></h:outputLabel>
+                <p:inputMask id="date" mask="99/99/9999" value="#{desempenhoBean.entidade.data}"/>
+
+                <h:outputLabel value="Hora" for="hora"></h:outputLabel>
+                <p:inputMask id="hora" mask="99:99" value="#{desempenhoBean.entidade.hora}"/>
+
+                <h:outputLabel value="Aceleração Média" for="aceleracaomedia"></h:outputLabel>
+                <p:inputText id="aceleracaomedia" value="#{desempenhoBean.entidade.aceleracaoMedia}"></p:inputText>
+
+                <h:outputLabel value="Velocidade Média" for="velocidademedia"></h:outputLabel>
+                <p:inputText id="velocidademedia" value="#{desempenhoBean.entidade.velocidadeMedia}"></p:inputText>
+
+                <h:outputLabel value="Tempo da Pista" for="tempopista"></h:outputLabel>
+                <p:inputText id="tempopista" value="#{desempenhoBean.entidade.tempoPista}"></p:inputText>
+
+                <h:outputLabel value="Frenagem" for="frenagem"></h:outputLabel>
+                <p:inputText id="frenagem" value="#{desempenhoBean.entidade.frenagem}"></p:inputText>
+
+                <h:outputLabel value="Automóvel" for="automovel"></h:outputLabel>
+                <p:selectOneMenu id="automovel" value="#{desempenhoBean.entidade.FKautomovel}" converter="conversorObjeto" effect="fade" required="true" requiredMessage="Informe o Design">
+                    <f:selectItem itemLabel="Escolha" itemValue=""/>
+                    <f:selectItems value="#{automovelBean.dao.buscar()}" var="automovel" itemLabel="#{automovel.nome}" itemValue="#{automovel}"/>
+                </p:selectOneMenu>
+
+                <h:outputLabel value="Tipo Pista" for="tipopista"></h:outputLabel>
+                <p:selectOneMenu id="tipopista" value="#{desempenhoBean.entidade.FKtipopista}" converter="conversorObjeto" effect="fade" required="true" requiredMessage="Informe o Tipo de Pista">
+                    <f:selectItem itemLabel="Escolha" itemValue=""/>
+                    <f:selectItems value="#{tipopistaBean.dao.buscar()}" var="tipopista" itemLabel="#{tipopista.nome}" itemValue="#{tipopista}"/>
+                </p:selectOneMenu>
+
+                <h:outputLabel value="Integrante" for="integrante"></h:outputLabel>
+                <p:selectOneMenu id="integrante" value="#{desempenhoBean.entidade.FKmotorista}" converter="conversorObjeto" effect="fade" required="true" requiredMessage="Informe o Integrante">
+                    <f:selectItem itemLabel="Escolha" itemValue=""/>
+                    <f:selectItems value="#{integranteBean.dao.buscar()}" var="integrante" itemLabel="#{integrante.FKpessoa.nome}" itemValue="#{integrante}"/>
+                </p:selectOneMenu> 
+            </p:panelGrid>
+            <p:dataTable value="#{desempenhoBean.entidades}" var="desempenho" rendered="#{desempenhoBean.busca == true}">
+                <p:column>
+                    <p:commandButton value="Editar" icon="fa fa-fw fa-edit" action="#{desempenhoBean.edita(desempenho)}" update="@form"></p:commandButton>
+                    <p:commandButton value="Deletar" icon="fa fa-fw fa-remove" action="#{desempenhoBean.exclui(desempenho)}" update="@form"></p:commandButton>
+                </p:column>                
+
+                <p:column headerText="Código" sortBy="#{desempenho.idDesempenho}">
+                    <h:outputText value="#{desempenho.idDesempenho}"></h:outputText>
+                </p:column>                
+
+                <p:column headerText="Nome" sortBy="#{desempenho.nome}">
+                    <h:outputText value="#{desempenho.nome}"></h:outputText>
+                </p:column>                
+
+                <p:column headerText="Data" sortBy="#{desempenho.data}">
+                    <h:outputText value="#{desempenho.data}"></h:outputText>
+                </p:column>                
+
+                <p:column headerText="Hora" sortBy="#{desempenho.hora}">
+                    <h:outputText value="#{desempenho.hora}"></h:outputText>
+                </p:column>                
+
+                <p:column headerText="Aceleração Média" sortBy="#{desempenho.aceleracaoMedia}">
+                    <h:outputText value="#{desempenho.aceleracaoMedia}"></h:outputText>
+                </p:column>                
+
+                <p:column headerText="Velocidade Média" sortBy="#{desempenho.velocidadeMedia}">
+                    <h:outputText value="#{desempenho.velocidadeMedia}"></h:outputText>
+                </p:column>                
+
+                <p:column headerText="Tempo da Pista" sortBy="#{desempenho.tempoPista}">
+                    <h:outputText value="#{desempenho.tempoPista}"></h:outputText>
+                </p:column>                
+
+                <p:column headerText="Frenagem" sortBy="#{desempenho.frenagem}">
+                    <h:outputText value="#{desempenho.frenagem}"></h:outputText>
+                </p:column>                
+
+                <p:column headerText="Automóvel" sortBy="#{desempenho.FKautomovel.nome}">
+                    <h:outputText value="#{desempenho.FKautomovel.nome}"></h:outputText>
+                </p:column>                
+
+                <p:column headerText="Tipo de Pista" sortBy="#{desempenho.FKtipopista.nome}">
+                    <h:outputText value="#{desempenho.FKtipopista.nome}"></h:outputText>
+                </p:column>                
+
+                <p:column headerText="Motorista" sortBy="#{desempenho.FKmotorista}">
+                    <h:outputText value="#{desempenho.FKmotorista.FKpessoa.nome}"></h:outputText>
+                </p:column>
+
+            </p:dataTable>
+        </p:fieldset>
+    </h:form>
+</ui:decorate>

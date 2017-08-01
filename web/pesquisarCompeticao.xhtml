@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="template.xhtml">
+
+    <h:form>
+        <p:messages autoUpdate="true" showDetail="true"></p:messages>
+        <p:fieldset legend="Competição">
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:commandButton value="Novo" action="#{competicaoBean.novo()}" icon="fa fa-plus" update="@form"></p:commandButton>
+                    <p:commandButton value="Salvar" action="#{competicaoBean.salva()}" icon="ui-icon-check" disabled="#{competicaoBean.busca == true}" update="@form"></p:commandButton>
+                    <p:commandButton value="Buscar" action="#{competicaoBean.busca()}" icon="fa fa-search" update="@form"></p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+            <p:panelGrid columns="2" rendered="#{competicaoBean.busca == false}">
+                <h:outputLabel value="Código" for="codigo"></h:outputLabel>
+                <p:inputText id="codigo" disabled="#{competicaoBean.edita == true}" value="#{competicaoBean.entidade.idCompeticao}"  required="true" requiredMessage="Informe o Código"></p:inputText>
+
+                <h:outputLabel value="Nome" for="nome"></h:outputLabel>
+                <p:inputText id="nome" value="#{competicaoBean.entidade.nome}"  required="true" requiredMessage="Informe o Nome"></p:inputText>
+
+                <h:outputLabel value="Data" for="date"></h:outputLabel>
+                <p:inputMask id="date" mask="99/99/9999" value="#{competicaoBean.entidade.data}" required="true" requiredMessage="Informe a Data"/>
+
+                <h:outputLabel value="Hora" for="hora"></h:outputLabel>
+                <p:inputMask id="hora" mask="99:99" value="#{competicaoBean.entidade.hora}" required="true" requiredMessage="Informe a Hora"/>
+
+                <h:outputLabel value="Local" for="local"></h:outputLabel>
+                <p:inputText id="local" value="#{competicaoBean.entidade.local}"  required="true" requiredMessage="Informe o Local"></p:inputText>
+
+                <h:outputLabel value="Tipo de Pista" for="tipopista"></h:outputLabel>
+                <p:selectOneMenu id="tipopista" value="#{competicaoBean.entidade.FKtipopista}" converter="conversorObjeto" effect="fade" required="true" requiredMessage="Informe o Tipo de Pista">
+                    <f:selectItem itemLabel="Escolha" itemValue=""/>
+                    <f:selectItems value="#{tipopistaBean.dao.buscar()}" var="tipopista" itemLabel="#{tipopista.nome}" itemValue="#{tipopista}"/>
+                </p:selectOneMenu>
+            </p:panelGrid>
+            <p:dataTable value="#{competicaoBean.entidades}" var="competicao" rendered="#{competicaoBean.busca == true}">
+                <p:column>
+                    <p:commandButton value="Editar" icon="fa fa-fw fa-edit" action="#{competicaoBean.edita(competicao)}" update="@form"></p:commandButton>
+                    <p:commandButton value="Deletar" icon="fa fa-fw fa-remove" action="#{competicaoBean.exclui(competicao)}" update="@form"></p:commandButton>
+                </p:column>
+                <p:column headerText="Código" sortBy="#{competicao.idCompeticao}">
+                    <h:outputText value="#{competicao.idCompeticao}"></h:outputText>
+                </p:column>
+
+                <p:column headerText="Nome" sortBy="#{competicao.nome}">
+                    <h:outputText value="#{competicao.nome}"></h:outputText>
+                </p:column>
+
+                <p:column headerText="Data" sortBy="#{competicao.data}">
+                    <h:outputText value="#{competicao.data}"></h:outputText>
+                </p:column>
+
+                <p:column headerText="Hora" sortBy="#{competicao.hora}">
+                    <h:outputText value="#{competicao.hora}"></h:outputText>
+                </p:column>
+
+                <p:column headerText="Local" sortBy="#{competicao.local}">
+                    <h:outputText value="#{competicao.local}"></h:outputText>
+                </p:column>
+
+                <p:column headerText="Tipo Pista" sortBy="#{competicao.FKtipopista.nome}">
+                    <h:outputText value="#{competicao.FKtipopista.nome}"></h:outputText>
+                </p:column>
+            </p:dataTable>
+        </p:fieldset>
+    </h:form>
+</ui:decorate>
